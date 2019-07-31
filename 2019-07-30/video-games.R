@@ -28,6 +28,7 @@ p <- ggplot(games, aes(factor(year))) +
   ) +
   theme_classic() +
   theme(
+    text = element_text(family = "Orbitron"),
     axis.text.x = element_text(angle = 90, vjust = 0.5),
     axis.text.y = element_text(angle = 90, hjust = 0.5),
     panel.background = element_blank(),
