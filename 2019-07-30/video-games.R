@@ -38,6 +38,8 @@ p <- ggplot(games, aes(factor(year))) +
 
 p1 <- p +
   geom_bar(aes(fill = owners)) +
+  annotate("segment", x = 9, xend = 9, y = 500, yend = 2600, lwd = 0.375) +
+  annotate("text", x = 9, y = 2600, label = "Steam Greenlight launch", vjust = -0.75, hjust = 0.5, family = "Orbitron", size = 3) +
   scale_y_continuous("Number of games") +
   labs(
     title = "Games on Steam",
