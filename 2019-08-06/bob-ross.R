@@ -5,8 +5,17 @@ library(stringr)
 library(forcats)
 library(scico)
 library(ggplot2)
+# devtools::install_github('hrbrmstr/pluralize')
+library(pluralize)
 
-bob_ross <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-08-06/bob-ross.csv") %>% 
+if (!exists("bob_ross_csv")) {
+  bob_ross_csv <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-08-06/bob-ross.csv")  
+}
+
+add_singular_rule("aurora_borealis", "aurora_borealis")
+add_singular_rule("deciduous", "deciduous")
+
+bob_ross <- bob_ross_csv %>% 
   janitor::clean_names() %>%
   mutate(
     title = gsub('(^"|"$)', '', title)
@@ -30,7 +39,6 @@ frames <- bob_ross %>%
   filter(present == 1) %>%
   select(-present)
 
-
 bob_ross <- bob_ross %>%
   # Remove all "frame" columns (including "framed").
   select(-matches("frame")) %>%
@@ -41,25 +49,33 @@ bob_ross <- bob_ross %>%
   select(-diane_andre, -steve_ross)
 
 bob_ross <- bob_ross %>%
+  select(-title, -frame, -guest) %>%
+  gather(element, present, -episode) %>%
+  # Reduce plural elements to singular.
+  mutate(
+    element = singularize(element)
+  ) %>%
+  group_by(episode, element) %>%
+  summarise(present = max(present))
+
+bob_ross <- bob_ross %>%
   separate(episode, into = c("season", "episode"), sep = "E") %>%
   mutate(season = str_extract(season, "[:digit:]+")) %>%
   mutate_at(vars(season, episode), as.integer)
 
-season_episode_element <- bob_ross %>%
-  select(-title, -frame, -guest) %>%
-  gather(element, present, -season, -episode) %>%
+bob_ross <- bob_ross %>%
   filter(present == 1) %>%
   mutate(
     element = gsub("_", " ", element)
   )
 
-season_episode_element %>%
+bob_ross %>%
   count(season, episode) %>%
   ggplot(aes(x = season, y = episode)) +
   geom_raster(aes(fill = n)) +
   geom_text(aes(label = n))
 
-season_episode_element %>%
+bob_ross %>%
   count(season, element) %>%
   mutate(
     element = fct_reorder(element, n, sum, .desc = TRUE)
