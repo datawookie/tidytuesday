@@ -82,17 +82,21 @@ bob_ross %>%
   ) %>%
   ggplot(aes(x = element, y = season)) +
   geom_raster(aes(fill = n), alpha = 0.75, show.legend = FALSE) +
-  geom_text(aes(label = n), size = 3) +
+  geom_text(aes(label = n), size = 2) +
   scale_y_continuous("Season", breaks = seq(1, 31, 1), expand = expand_scale(add = 0.5)) +
   scale_x_discrete("") + 
   scale_fill_scico(palette = "bilbao", direction = +1) +
   theme(
-    panel.background = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    panel.grid = element_blank(),
+    axis.text.x = element_text(size = 6, angle = 90, vjust = 0.5, hjust = 1),
+    axis.text.y = element_text(size = 6),
+    plot.title = element_text(family = "Pacifico"),
+    plot.subtitle = element_text(family = "Pacifico", hjust = 1.0),
+    panel.background = element_blank()
   ) +
   labs(
     title = "Bob Ross",
     subtitle = "Count of Visual Elements by Season"
   )
 
-ggsave(here::here("2019-08-06", "bob-ross.png"), width = 16, height = 9)
+ggsave(here::here("2019-08-06", "bob-ross.png"), width = 8, height = 4.5)
