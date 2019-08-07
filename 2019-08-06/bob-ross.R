@@ -69,8 +69,6 @@ bob_ross <- bob_ross %>%
 
 # ---------------------------------------------------------------------------------------------------------------------
 
-ggplot(bob_ross %>% filter(!is.na(frame)), aes(x = frame)) + geom_bar()
-
 bob_ross %>%
   count(season, episode) %>%
   ggplot(aes(x = season, y = episode)) +
