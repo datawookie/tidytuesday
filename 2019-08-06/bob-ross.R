@@ -48,32 +48,41 @@ bob_ross <- bob_ross %>%
 bob_ross <- bob_ross %>%
   select(-diane_andre, -steve_ross)
 
+# The frame and guest data seem to be rather uninteresting, so we'll drop them here...
+
 bob_ross <- bob_ross %>%
-  select(-title, -frame, -guest) %>%
   gather(element, present, -episode) %>%
   # Reduce plural elements to singular.
   mutate(
-    element = singularize(element)
+    element = gsub("_", " ", singularize(element))
   ) %>%
   group_by(episode, element) %>%
-  summarise(present = max(present))
+  summarise(present = max(present)) %>%
+  ungroup() %>%
+  filter(present == 1) %>%
+  select(-present)
 
 bob_ross <- bob_ross %>%
   separate(episode, into = c("season", "episode"), sep = "E") %>%
   mutate(season = str_extract(season, "[:digit:]+")) %>%
   mutate_at(vars(season, episode), as.integer)
 
-bob_ross <- bob_ross %>%
-  filter(present == 1) %>%
-  mutate(
-    element = gsub("_", " ", element)
-  )
+# ---------------------------------------------------------------------------------------------------------------------
+
+ggplot(bob_ross %>% filter(!is.na(frame)), aes(x = frame)) + geom_bar()
 
 bob_ross %>%
   count(season, episode) %>%
   ggplot(aes(x = season, y = episode)) +
   geom_raster(aes(fill = n)) +
   geom_text(aes(label = n))
+
+bob_ross %>%
+  select(season, episode, guest) %>%
+  unique() %>%
+  ggplot(aes(x = season, y = episode)) +
+  geom_raster(aes(fill = guest)) +
+  geom_text(aes(label = guest))
 
 bob_ross %>%
   count(season, element) %>%
@@ -90,13 +99,12 @@ bob_ross %>%
     panel.grid = element_blank(),
     axis.text.x = element_text(size = 6, angle = 90, vjust = 0.5, hjust = 1),
     axis.text.y = element_text(size = 6),
-    plot.title = element_text(family = "Pacifico"),
-    plot.subtitle = element_text(family = "Pacifico", hjust = 1.0),
+    plot.title = element_text(family = "Pacifico", vjust = 0, hjust = 1),
+    # plot.subtitle = element_text(family = "Pacifico", hjust = 0.0, vjust = -1.0, lineheight = 12),
     panel.background = element_blank()
   ) +
   labs(
-    title = "Bob Ross",
-    subtitle = "Count of Visual Elements by Season"
+    title = "Bob Ross - Count of Visual Elements by Season"
   )
 
-ggsave(here::here("2019-08-06", "bob-ross.png"), width = 8, height = 4.5)
+ggsave(here::here("2019-08-06", "bob-ross-count-visual-element.png"), width = 8, height = 4.5)
