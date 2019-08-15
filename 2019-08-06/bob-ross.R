@@ -5,7 +5,6 @@ library(stringr)
 library(forcats)
 library(scico)
 library(ggplot2)
-# devtools::install_github('hrbrmstr/pluralize')
 library(pluralize)
 
 if (!exists("bob_ross_csv")) {
