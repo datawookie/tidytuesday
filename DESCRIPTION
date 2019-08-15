@@ -18,13 +18,13 @@ Depends:
     here,
     janitor,
     lubridate,
-    patchwork,
-    pluralize,
     readr,
     scales,
     scico,
     stringr,
     tidyr,
     tidyverse
+Remotes: thomasp85/patchwork,
+  hrbrmstr/pluralize
 Encoding: UTF-8
 LazyData: true
