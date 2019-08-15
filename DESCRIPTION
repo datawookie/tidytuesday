@@ -1,0 +1,30 @@
+Type: Compendium
+Package: tidytuesday
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.1
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Code for #TidyTuesday submissions.
+License: What license it uses
+Depends: 
+    dplyr,
+    forcats,
+    gganimate,
+    ggplot2,
+    here,
+    janitor,
+    lubridate,
+    patchwork,
+    pluralize,
+    readr,
+    scales,
+    scico,
+    stringr,
+    tidyr,
+    tidyverse
+Encoding: UTF-8
+LazyData: true
