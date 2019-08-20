@@ -1,6 +1,6 @@
 Type: Compendium
 Package: tidytuesday
-Title: What the Package Does (One Line, Title Case)
+Title: TidyTuesday
 Version: 0.0.1
 Authors@R: 
     person(given = "First",
@@ -11,20 +11,23 @@ Authors@R:
 Description: Code for #TidyTuesday submissions.
 License: What license it uses
 Depends: 
+    devtools,
     dplyr,
     forcats,
-    gganimate,
     ggplot2,
     here,
     janitor,
     lubridate,
     readr,
+    roxygen2,
     scales,
     scico,
     stringr,
     tidyr,
     tidyverse
-Remotes: thomasp85/patchwork,
-  hrbrmstr/pluralize
+Remotes: 
+    hrbrmstr/pluralize,
+    thomasp85/gganimate,
+    thomasp85/patchwork
 Encoding: UTF-8
 LazyData: true
