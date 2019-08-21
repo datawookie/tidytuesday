@@ -3,10 +3,10 @@ Package: tidytuesday
 Title: TidyTuesday
 Version: 0.0.1
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Andrew",
+           family = "Collier",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "andrew@exegetic.biz",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: Code for #TidyTuesday submissions.
 License: What license it uses
